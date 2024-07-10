@@ -18,6 +18,13 @@ class InvalidSemanticVersion(Exception):
         )
 
 
+class VersionAlreadyReleasedError(Exception):
+    def __init__(self, version: str):
+        super().__init__(
+            f"Version {version} already released."
+        )
+
+
 def contains_breaking_changes(unreleased: dict) -> bool:
     return "removed" in unreleased or "changed" in unreleased
 

@@ -156,6 +156,17 @@ def test_create_release_nothing_to_release(
     assert captured.out == ""
 
 
+def test_create_release_already_exists(changelog: str, capsys: pytest.CaptureFixture):
+    with pytest.raises(SystemExit) as cm:
+        cli(["release", "1.1.0", "-f", changelog])
+    assert cm.value.code == 3
+
+    captured = capsys.readouterr()
+
+    assert captured.err == "Version 1.1.0 already released."
+    assert captured.out == ""
+
+
 def test_create_release_specific_version(changelog: str, capsys: pytest.CaptureFixture):
     cli(["release", "3.2.1", "-f", changelog])
 

@@ -163,3 +163,18 @@ def test_create_release_specific_version(changelog: str, capsys: pytest.CaptureF
 
     assert captured.err == ""
     assert captured.out.strip() == "3.2.1"
+
+
+def test_missing_command(capsys: pytest.CaptureFixture):
+    with pytest.raises(SystemExit) as cm:
+        cli([])
+    assert cm.value.code == 2
+
+    captured = capsys.readouterr()
+
+    assert (
+        captured.err.strip()
+        == """usage: keepachangelog [-h] [-v] {show,release} ...
+keepachangelog: error: the following arguments are required: {show,release}"""
+    )
+    assert captured.out == ""

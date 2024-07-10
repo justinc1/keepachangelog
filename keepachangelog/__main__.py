@@ -45,7 +45,7 @@ Examples:
         formatter_class=CustomFormatter,
     )
 
-    subparser = parser.add_subparsers(title="commands")
+    subparser = parser.add_subparsers(title="commands", required=True)
 
     # keepachangelog show
     parser_show_help = "Show the content of a release from the changelog"

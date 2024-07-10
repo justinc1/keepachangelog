@@ -7,6 +7,13 @@ from keepachangelog.version import __version__
 
 def _command_show(args: argparse.Namespace) -> None:
     changelog = keepachangelog.to_raw_dict(args.file)
+
+    if args.release not in changelog.keys():
+        sys.stderr.write(
+            f"{args.file} does not contain release {args.release}."
+        )
+        exit(3)
+
     content = changelog.get(args.release)
     print(content["raw"])
 

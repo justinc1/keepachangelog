@@ -129,6 +129,18 @@ def test_show_release_raw(changelog: str, capsys: pytest.CaptureFixture):
     )
 
 
+def test_show_release_does_not_exist(changelog: str, capsys: pytest.CaptureFixture):
+    # Requested release does not exist.
+    with pytest.raises(SystemExit) as cm:
+        cli(["show", "11.0.0", changelog])
+    assert cm.value.code == 3
+
+    captured = capsys.readouterr()
+
+    assert captured.err.strip() == f"{changelog} does not contain release 11.0.0."
+    assert captured.out == ""
+
+
 def test_create_release_automatic_version(
     changelog: str, capsys: pytest.CaptureFixture
 ):

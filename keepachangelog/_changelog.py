@@ -7,6 +7,7 @@ from keepachangelog._versioning import (
     guess_unreleased_version,
     to_semantic,
     InvalidSemanticVersion,
+    VersionAlreadyReleasedError,
 )
 
 
@@ -218,7 +219,10 @@ def release(changelog_path: str, new_version: str = None) -> Optional[str]:
     """
     changelog = to_dict(changelog_path, show_unreleased=True)
     current_version, current_semantic_version = actual_version(changelog)
-    if not new_version:
+    if new_version:
+        if new_version in changelog.keys():
+            raise VersionAlreadyReleasedError(new_version)
+    else:
         new_version = guess_unreleased_version(changelog, current_semantic_version)
     if new_version:
         release_version(changelog_path, current_version, new_version)

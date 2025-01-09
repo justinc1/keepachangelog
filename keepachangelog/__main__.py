@@ -3,6 +3,7 @@ import argparse
 
 import keepachangelog
 from keepachangelog.version import __version__
+from keepachangelog._versioning import VersionAlreadyReleasedError
 
 
 def _command_show(args: argparse.Namespace) -> None:
@@ -19,7 +20,11 @@ def _command_show(args: argparse.Namespace) -> None:
 
 
 def _command_release(args: argparse.Namespace) -> None:
-    new_version = keepachangelog.release(args.file, args.release)
+    try:
+        new_version = keepachangelog.release(args.file, args.release)
+    except VersionAlreadyReleasedError as ex:
+            sys.stderr.write(ex.args[0])
+            exit(3)
 
     if not new_version:
         sys.stderr.write(

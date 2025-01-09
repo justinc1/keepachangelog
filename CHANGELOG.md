@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
+- Do not release same version twice.
 - Show helpful error message if `show <release>` does not find requested `release`.
 
 ## [2.0.0] - 2024-06-14
